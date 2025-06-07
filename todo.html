@@ -30,6 +30,34 @@
       text-align: center;
       color: #ffde59;
     }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .clear-btn, .history-btn {
+      flex: 1;
+      background: #e74c3c;
+      color: #fff;
+      border-radius: 4px;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: block;
+    }
+    .history-btn {
+      background: #3498db;
+      position: relative;
+    }
+    .clear-btn:hover {
+      background: #c0392b;
+    }
+    .history-btn:hover {
+      background: #217dbb;
+    }
     form {
       display: flex;
       margin-bottom: 22px;
@@ -54,23 +82,6 @@
     }
     button:hover {
       background: #ffd600;
-    }
-    .clear-btn {
-      width: 100%;
-      margin-bottom: 18px;
-      background: #e74c3c;
-      color: #fff;
-      border-radius: 4px;
-      padding: 10px 0;
-      font-size: 1rem;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: block;
-    }
-    .clear-btn:hover {
-      background: #c0392b;
     }
     ul {
       padding: 0;
@@ -101,27 +112,181 @@
       padding: 5px 12px;
       cursor: pointer;
       font-size: 0.9rem;
-      margin-left: 15px;
+      margin-left: 8px;
       transition: background 0.2s;
     }
     .remove-btn:hover {
       background: #c0392b;
     }
+    .edit-btn {
+      background: #4caf50;
+      border: none;
+      color: #fff;
+      border-radius: 3px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 8px;
+      transition: background 0.2s;
+    }
+    .edit-btn:hover {
+      background: #388e3c;
+    }
     .checkbox {
       margin-right: 12px;
       transform: scale(1.15);
+    }
+    .edit-input {
+      flex: 1;
+      padding: 6px 8px;
+      font-size: 1rem;
+      border-radius: 3px;
+      border: 1px solid #bbb;
+      margin-right: 6px;
+    }
+    .save-btn {
+      background: #ffde59;
+      color: #2e3b43;
+      font-weight: bold;
+      border: none;
+      border-radius: 3px;
+      padding: 5px 12px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-left: 4px;
+      transition: background 0.2s;
+    }
+    .save-btn:hover {
+      background: #ffd600;
+    }
+    .cancel-btn {
+      background: #aaa;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 5px 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-left: 4px;
+      transition: background 0.2s;
+    }
+    .cancel-btn:hover {
+      background: #888;
+    }
+    .history-modal {
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(20, 20, 20, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 60px;
+      display: none;
+    }
+    .history-modal.active {
+      display: flex;
+    }
+    .history-content {
+      background: #2e3b43;
+      border-radius: 8px;
+      padding: 32px 24px;
+      min-width: 320px;
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .history-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .history-content h3 {
+      color: #ffde59;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+    .export-btn {
+      background: #27ae60;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 7px 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 16px;
+      transition: background 0.2s;
+    }
+    .export-btn:hover {
+      background: #219150;
+    }
+    .close-history-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .close-history-btn:hover {
+      background: #c0392b;
+    }
+    .history-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .history-list li {
+      background: #232f36;
+      margin-bottom: 10px;
+      padding: 10px 10px;
+      border-radius: 4px;
+      color: #fff;
+      opacity: 0.9;
+      font-size: 1rem;
+      word-break: break-word;
+    }
+    .empty-history {
+      color: #bbb;
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
   <div class="todo-container">
     <h2>To-Do List</h2>
-    <button class="clear-btn" id="clear-todos">Clear All</button>
+    <div class="btn-row">
+      <button class="clear-btn" id="clear-todos">Clear All</button>
+      <button class="history-btn" id="show-history">History</button>
+    </div>
     <form id="todo-form">
       <input type="text" id="todo-input" placeholder="Add your new task..." autocomplete="off" required>
       <button type="submit">Add</button>
     </form>
     <ul id="todo-list"></ul>
+  </div>
+  <div class="history-modal" id="history-modal">
+    <div class="history-content">
+      <div class="history-header-row">
+        <h3>Cleared To-Do History</h3>
+        <button class="export-btn" id="export-history" title="Export history as CSV">Export</button>
+      </div>
+      <button class="close-history-btn" id="close-history">&times;</button>
+      <ul class="history-list" id="history-list"></ul>
+      <div class="empty-history" id="empty-history" style="display:none;">No cleared to-do lists yet.</div>
+    </div>
   </div>
   <script>
     // Helper functions for localStorage
@@ -131,6 +296,15 @@
     function saveTodos(todos) {
       localStorage.setItem('todos', JSON.stringify(todos));
     }
+    function getHistory() {
+      return JSON.parse(localStorage.getItem('todos_history') || '[]');
+    }
+    function saveHistory(history) {
+      localStorage.setItem('todos_history', JSON.stringify(history));
+    }
+
+    let editingIndex = null;
+
     // Render list
     function renderTodos() {
       const todoList = document.getElementById('todo-list');
@@ -139,6 +313,7 @@
       todos.forEach((todo, idx) => {
         const li = document.createElement('li');
         li.className = todo.completed ? 'completed' : '';
+
         // Checkbox
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -149,24 +324,82 @@
           saveTodos(todos);
           renderTodos();
         });
-        // Task text
-        const text = document.createElement('span');
-        text.textContent = todo.text;
-        // Remove button
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = 'Delete';
-        removeBtn.className = 'remove-btn';
-        removeBtn.onclick = () => {
-          todos.splice(idx, 1);
-          saveTodos(todos);
-          renderTodos();
-        };
-        li.appendChild(checkbox);
-        li.appendChild(text);
-        li.appendChild(removeBtn);
+
+        if (editingIndex === idx) {
+          // Editing mode
+          const editInput = document.createElement('input');
+          editInput.type = 'text';
+          editInput.value = todo.text;
+          editInput.className = 'edit-input';
+          editInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') saveEdit(idx, editInput.value.trim());
+            if (e.key === 'Escape') cancelEdit();
+          });
+          editInput.focus();
+
+          const saveBtn = document.createElement('button');
+          saveBtn.textContent = 'Save';
+          saveBtn.className = 'save-btn';
+          saveBtn.onclick = () => saveEdit(idx, editInput.value.trim());
+
+          const cancelBtn = document.createElement('button');
+          cancelBtn.textContent = 'Cancel';
+          cancelBtn.className = 'cancel-btn';
+          cancelBtn.onclick = cancelEdit;
+
+          li.appendChild(checkbox);
+          li.appendChild(editInput);
+          li.appendChild(saveBtn);
+          li.appendChild(cancelBtn);
+        } else {
+          // Display mode
+          const text = document.createElement('span');
+          text.textContent = todo.text;
+
+          // Edit button
+          const editBtn = document.createElement('button');
+          editBtn.textContent = 'Edit';
+          editBtn.className = 'edit-btn';
+          editBtn.onclick = () => {
+            editingIndex = idx;
+            renderTodos();
+          };
+
+          // Remove button
+          const removeBtn = document.createElement('button');
+          removeBtn.textContent = 'Delete';
+          removeBtn.className = 'remove-btn';
+          removeBtn.onclick = () => {
+            todos.splice(idx, 1);
+            saveTodos(todos);
+            editingIndex = null;
+            renderTodos();
+          };
+
+          li.appendChild(checkbox);
+          li.appendChild(text);
+          li.appendChild(editBtn);
+          li.appendChild(removeBtn);
+        }
         todoList.appendChild(li);
       });
     }
+
+    function saveEdit(idx, newText) {
+      if (newText) {
+        const todos = getTodos();
+        todos[idx].text = newText;
+        saveTodos(todos);
+      }
+      editingIndex = null;
+      renderTodos();
+    }
+
+    function cancelEdit() {
+      editingIndex = null;
+      renderTodos();
+    }
+
     // Add new todo
     document.getElementById('todo-form').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -180,13 +413,111 @@
         renderTodos();
       }
     });
-    // Clear all todos
+
+    // Clear all todos and save to history
     document.getElementById('clear-todos').addEventListener('click', function() {
+      const todos = getTodos();
+      if (!todos.length) return;
       if (confirm('Are you sure you want to clear your entire to-do list?')) {
+        const history = getHistory();
+        // Save a copy (with timestamp)
+        history.unshift({
+          time: new Date().toLocaleString(),
+          items: todos
+        });
+        saveHistory(history);
         localStorage.removeItem('todos');
+        editingIndex = null;
         renderTodos();
       }
     });
+
+    // Show history modal
+    document.getElementById('show-history').addEventListener('click', function() {
+      renderHistory();
+      document.getElementById('history-modal').classList.add('active');
+    });
+
+    // Close history modal
+    document.getElementById('close-history').addEventListener('click', function() {
+      document.getElementById('history-modal').classList.remove('active');
+    });
+
+    // Export history as CSV file
+    document.getElementById('export-history').addEventListener('click', function() {
+      const history = getHistory();
+      if (!history.length) {
+        alert("No history to export.");
+        return;
+      }
+      // Create a CSV formatted string
+      let csv = 'Cleared On,Task,Completed\n';
+      history.forEach(entry => {
+        const time = '"' + entry.time.replace(/"/g, '""') + '"';
+        if (entry.items.length === 0) {
+          csv += `${time},"(No tasks)",""\n`;
+        } else {
+          entry.items.forEach(todo => {
+            const task = '"' + todo.text.replace(/"/g, '""') + '"';
+            const completed = todo.completed ? 'Yes' : 'No';
+            csv += `${time},${task},${completed}\n`;
+          });
+        }
+      });
+      // Download as .csv
+      const blob = new Blob([csv], {type: 'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'todo_history.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+
+    // Render history list
+    function renderHistory() {
+      const historyList = document.getElementById('history-list');
+      const emptyHistory = document.getElementById('empty-history');
+      const history = getHistory();
+      historyList.innerHTML = '';
+      if (!history.length) {
+        emptyHistory.style.display = '';
+        return;
+      }
+      emptyHistory.style.display = 'none';
+      history.forEach((entry, entryIdx) => {
+        const li = document.createElement('li');
+        const listTitle = document.createElement('div');
+        listTitle.style.fontWeight = 'bold';
+        listTitle.style.marginBottom = '6px';
+        listTitle.textContent = `Cleared on: ${entry.time}`;
+        li.appendChild(listTitle);
+
+        if (entry.items.length === 0) {
+          const emptyMsg = document.createElement('div');
+          emptyMsg.textContent = '(No tasks)';
+          emptyMsg.style.color = '#bbb';
+          li.appendChild(emptyMsg);
+        } else {
+          const ul = document.createElement('ul');
+          ul.style.paddingLeft = '18px';
+          ul.style.margin = '0';
+          entry.items.forEach(todo => {
+            const taskLi = document.createElement('li');
+            taskLi.textContent = todo.text + (todo.completed ? " (completed)" : "");
+            taskLi.style.background = 'none';
+            taskLi.style.padding = '0';
+            taskLi.style.color = todo.completed ? '#aaa' : '#fff';
+            ul.appendChild(taskLi);
+          });
+          li.appendChild(ul);
+        }
+        historyList.appendChild(li);
+      });
+    }
+
     // Initial render
     renderTodos();
   </script>
