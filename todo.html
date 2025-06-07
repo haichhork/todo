@@ -55,6 +55,23 @@
     button:hover {
       background: #ffd600;
     }
+    .clear-btn {
+      width: 100%;
+      margin-bottom: 18px;
+      background: #e74c3c;
+      color: #fff;
+      border-radius: 4px;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: block;
+    }
+    .clear-btn:hover {
+      background: #c0392b;
+    }
     ul {
       padding: 0;
       list-style: none;
@@ -99,6 +116,7 @@
 <body>
   <div class="todo-container">
     <h2>To-Do List</h2>
+    <button class="clear-btn" id="clear-todos">Clear All</button>
     <form id="todo-form">
       <input type="text" id="todo-input" placeholder="Add your new task..." autocomplete="off" required>
       <button type="submit">Add</button>
@@ -159,6 +177,13 @@
         todos.push({ text, completed: false });
         saveTodos(todos);
         input.value = '';
+        renderTodos();
+      }
+    });
+    // Clear all todos
+    document.getElementById('clear-todos').addEventListener('click', function() {
+      if (confirm('Are you sure you want to clear your entire to-do list?')) {
+        localStorage.removeItem('todos');
         renderTodos();
       }
     });
