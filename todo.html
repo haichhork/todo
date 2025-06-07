@@ -203,6 +203,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
+      gap: 10px;
     }
     .history-content h3 {
       color: #ffde59;
@@ -218,11 +219,26 @@
       font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      margin-left: 16px;
+      margin-left: 0;
       transition: background 0.2s;
     }
     .export-btn:hover {
       background: #219150;
+    }
+    .clear-history-btn {
+      background: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 7px 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 0;
+      transition: background 0.2s;
+    }
+    .clear-history-btn:hover {
+      background: #c0392b;
     }
     .close-history-btn {
       position: absolute;
@@ -282,6 +298,7 @@
       <div class="history-header-row">
         <h3>Cleared To-Do History</h3>
         <button class="export-btn" id="export-history" title="Export history as CSV">Export</button>
+        <button class="clear-history-btn" id="clear-history-btn" title="Clear all history">Clear</button>
       </div>
       <button class="close-history-btn" id="close-history">&times;</button>
       <ul class="history-list" id="history-list"></ul>
@@ -474,6 +491,14 @@
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+    });
+
+    // Clear all history
+    document.getElementById('clear-history-btn').addEventListener('click', function() {
+      if (confirm('Are you sure you want to clear all history? This cannot be undone.')) {
+        localStorage.removeItem('todos_history');
+        renderHistory();
+      }
     });
 
     // Render history list
