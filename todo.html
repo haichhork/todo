@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List App</title>
+  <style>
+    body {
+      background: #232f36;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .todo-container {
+      background: #2e3b43;
+      border-radius: 8px;
+      padding: 32px 24px;
+      margin-top: 40px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+      min-width: 320px;
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-weight: normal;
+      font-size: 1.7rem;
+      text-align: center;
+      color: #ffde59;
+    }
+    form {
+      display: flex;
+      margin-bottom: 22px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 10px 18px;
+      border: none;
+      background: #ffde59;
+      color: #2e3b43;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #ffd600;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+    }
+    li {
+      background: #232f36;
+      margin-bottom: 10px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    li.completed {
+      text-decoration: line-through;
+      color: #aaa;
+      opacity: 0.7;
+    }
+    .remove-btn {
+      background: #e74c3c;
+      border: none;
+      color: #fff;
+      border-radius: 3px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 15px;
+      transition: background 0.2s;
+    }
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+    .checkbox {
+      margin-right: 12px;
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h2>To-Do List</h2>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="Add your new task..." autocomplete="off" required>
+      <button type="submit">Add</button>
+    </form>
+    <ul id="todo-list"></ul>
+  </div>
+  <script>
+    // Helper functions for localStorage
+    function getTodos() {
+      return JSON.parse(localStorage.getItem('todos') || '[]');
+    }
+    function saveTodos(todos) {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+    // Render list
+    function renderTodos() {
+      const todoList = document.getElementById('todo-list');
+      todoList.innerHTML = '';
+      const todos = getTodos();
+      todos.forEach((todo, idx) => {
+        const li = document.createElement('li');
+        li.className = todo.completed ? 'completed' : '';
+        // Checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'checkbox';
+        checkbox.checked = todo.completed;
+        checkbox.addEventListener('change', () => {
+          todos[idx].completed = checkbox.checked;
+          saveTodos(todos);
+          renderTodos();
+        });
+        // Task text
+        const text = document.createElement('span');
+        text.textContent = todo.text;
+        // Remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Delete';
+        removeBtn.className = 'remove-btn';
+        removeBtn.onclick = () => {
+          todos.splice(idx, 1);
+          saveTodos(todos);
+          renderTodos();
+        };
+        li.appendChild(checkbox);
+        li.appendChild(text);
+        li.appendChild(removeBtn);
+        todoList.appendChild(li);
+      });
+    }
+    // Add new todo
+    document.getElementById('todo-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
+      if (text) {
+        const todos = getTodos();
+        todos.push({ text, completed: false });
+        saveTodos(todos);
+        input.value = '';
+        renderTodos();
+      }
+    });
+    // Initial render
+    renderTodos();
+  </script>
+</body>
+</html>
